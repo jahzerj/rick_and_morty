@@ -1,3 +1,5 @@
+import { CharacterCard } from "./components/CharacterCard/CharacterCard.js";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
@@ -32,3 +34,7 @@ async function fetchCharacters() {
 }
 
 fetchCharacters();
+
+const card = CharacterCard(characterObject);
+cardContainer.append(card);
+CharacterCard();
