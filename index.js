@@ -8,8 +8,8 @@ const searchBarContainer = document.querySelector(
 );
 const searchBar = document.querySelector('[data-js="search-bar"]');
 const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
+// const prevButton = document.querySelector('[data-js="button-prev"]');
+// const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
@@ -47,8 +47,8 @@ const { prevButton, nextButton } = createNavButtons();
 const paginationElement = createNavPagination(page, maxPage);
 
 navigation.appendChild(prevButton);
-navigation.appendChild(paginationElement);
 navigation.appendChild(nextButton);
+navigation.appendChild(paginationElement);
 
 // Add event listeners to the buttons------------------------------------------------------------------------
 prevButton.addEventListener('click', (event) => {
@@ -85,6 +85,7 @@ searchBar.addEventListener('submit', (event) => {
 async function fetchAndRender() {
   const charactersArray = await fetchCharacters();
   renderCards(charactersArray);
+  updatePagination();
 }
 
 fetchAndRender();

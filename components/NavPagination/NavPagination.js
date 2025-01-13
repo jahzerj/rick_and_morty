@@ -2,7 +2,15 @@ export function createNavPagination(currentPage, totalPages) {
   const pagination = document.createElement('span');
   pagination.className = 'navigation__pagination';
   pagination.dataset.js = 'pagination';
-  pagination.textContent = `${page} / ${totalPages}`;
+  pagination.textContent = `${currentPage} / ${totalPages}`;
 
   return pagination;
 }
+
+// export function createNavPagination(currentPage, totalPages) {
+//     const pagination = document.createElement("span");
+//     pagination.className = "navigation__pagination";
+//     pagination.dataset.js = "pagination";
+//     pagination.textContent = `${currentPage} / ${totalPages}`;
+//     return pagination;
+//   }
