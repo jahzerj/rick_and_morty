@@ -72,7 +72,7 @@ searchBar.addEventListener("submit", (event) => {
 
 // ----------------------------------------------------------------------------------
 
-// Runung from here down.
+// Running from here down.
 async function fetchAndRender() {
   const charactersArray = await fetchCharacters();
   renderCards(charactersArray);
