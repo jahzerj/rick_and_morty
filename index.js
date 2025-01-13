@@ -11,7 +11,7 @@ const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
-let maxPage = data.info.pages;
+let maxPage = 42;
 let page = 1;
 let searchQuery = "";
 
@@ -21,8 +21,9 @@ async function fetchCharacters() {
   );
   const data = await response.json();
   //data.results is an array of objects with character data
+  maxPage = data.info.pages;
+  pagination.innerHTML = `${page} / ${maxPage}`;
   return data.results;
-  return data.info;
 }
 
 function renderCards(characters) {
@@ -57,7 +58,7 @@ prevButton.addEventListener("click", (event) => {
 
 searchBar.addEventListener("submit", (event) => {
   event.preventDefault();
-
+  page = 1;
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData);
   console.log(data);
@@ -66,6 +67,7 @@ searchBar.addEventListener("submit", (event) => {
   console.log(searchQuery);
 
   fetchAndRender();
+  searchBar.reset();
 });
 
 // ----------------------------------------------------------------------------------
