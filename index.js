@@ -1,16 +1,11 @@
 import { CharacterCard } from './components/CharacterCard/CharacterCard.js';
 import { createNavButtons } from './components/NavButton/NavButton.js';
 import { createNavPagination } from './components/NavPagination/NavPagination.js';
+import { createSearchBar } from './components/SearchBar/SearchBar.js';
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
-const searchBarContainer = document.querySelector(
-  '[data-js="search-bar-container"]'
-);
-const searchBar = document.querySelector('[data-js="search-bar"]');
+const searchBarContainer = document.querySelector('[data-js="search-bar-container"]');
 const navigation = document.querySelector('[data-js="navigation"]');
-// const prevButton = document.querySelector('[data-js="button-prev"]');
-// const nextButton = document.querySelector('[data-js="button-next"]');
-// const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
 let maxPage = 42; //Max Pages
@@ -42,13 +37,15 @@ function updatePagination() {
   paginationElement.textContent = `${page} / ${maxPage}`;
 }
 
-// Create and append navigation elements
+// Create and append navigation elements/search bar
 const { prevButton, nextButton } = createNavButtons();
 const paginationElement = createNavPagination(page, maxPage);
+const searchBar = createSearchBar();
 
 navigation.appendChild(prevButton);
 navigation.appendChild(nextButton);
 navigation.appendChild(paginationElement);
+searchBarContainer.appendChild(searchBar);
 
 // Add event listeners to the buttons------------------------------------------------------------------------
 prevButton.addEventListener('click', (event) => {
@@ -70,11 +67,7 @@ searchBar.addEventListener('submit', (event) => {
   page = 1;
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData);
-  console.log(data);
-
   searchQuery = data.query;
-  console.log(searchQuery);
-
   fetchAndRender();
   searchBar.reset();
 });
