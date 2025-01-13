@@ -12,7 +12,7 @@ const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
 const maxPage = 42;
-const page = 1;
+let page = 1;
 const searchQuery = "";
 
 async function fetchCharacters() {
@@ -26,16 +26,40 @@ async function fetchCharacters() {
 
 function renderCards(characters) {
   cardContainer.innerHTML = "";
-  console.log(characters);
   characters.forEach((character) => {
     const card = CharacterCard(character);
     cardContainer.append(card);
   });
-};
+}
 
+nextButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (page === maxPage) {
+    return;
+  } else {
+    page++;
+    fetchAndRender();
+    pagination.innerHTML = `${page} / ${maxPage}`;
+  }
+});
+
+prevButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (page === 1) {
+    return;
+  } else {
+    page--;
+    fetchAndRender();
+    pagination.innerHTML = `${page} / ${maxPage}`;
+  }
+});
 
 // ----------------------------------------------------------------------------------
 
 // Runung from here down.
-const charactersArray = await fetchCharacters();
-renderCards(charactersArray);
+async function fetchAndRender() {
+  const charactersArray = await fetchCharacters();
+  renderCards(charactersArray);
+}
+
+fetchAndRender();
