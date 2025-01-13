@@ -31,7 +31,8 @@ function renderCards(characters) {
     const card = CharacterCard(character);
     cardContainer.append(card);
   });
-}
+};
+
 
 // ----------------------------------------------------------------------------------
 
