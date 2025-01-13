@@ -13,15 +13,39 @@ let page = 1; // Current Page
 let searchQuery = '';
 
 async function fetchCharacters() {
-  const response = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${page}&name=${searchQuery}`
-  );
-  const data = await response.json();
-  //data.results is an array of objects with character data
-  maxPage = data.info.pages;
-  paginationElement.innerHTML = `${page} / ${maxPage}`;
-  return data.results;
+  try {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character/?page=${page}&name=${searchQuery}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch characters: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data.info || !data.results || data.results.length === 0) {
+      maxPage = 0; //set maxPage to 0 when nothing is found
+      paginationElement.innerHTML = `0 / 0`;
+      cardContainer.innerHTML = `<p>No data available for the query: "${searchQuery}"</p>`;
+      return []; //Returns an empty array so that all array methods still work
+    }
+
+    //Change page numbers for each request
+    maxPage = data.info.pages;
+    paginationElement.innerHTML = `${page} / ${maxPage}`;
+    return data.results;
+    //data.results is an array of objects with character data
+  } catch (error) {
+    console.error(`Error fetching characters:`, error.message);
+    maxPage = 0;
+    page = 0;
+    paginationElement.innerHTML = `0 / 0`; //makes page count 0/0
+    cardContainer.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
+    return []; //Returns an empty array so that all array methods still work
+  }
 }
+// throw new Error(`No data available for the query: "${searchQuery}"`);
 
 function renderCards(characters) {
   cardContainer.innerHTML = '';
@@ -33,7 +57,6 @@ function renderCards(characters) {
 
 //updates page number
 function updatePagination() {
-  const pagination = document.querySelector('[data-js="pagination"]');
   paginationElement.textContent = `${page} / ${maxPage}`;
 }
 
@@ -43,8 +66,8 @@ const paginationElement = createNavPagination(page, maxPage);
 const searchBar = createSearchBar();
 
 navigation.appendChild(prevButton);
-navigation.appendChild(nextButton);
 navigation.appendChild(paginationElement);
+navigation.appendChild(nextButton);
 searchBarContainer.appendChild(searchBar);
 
 // Add event listeners to the buttons------------------------------------------------------------------------
@@ -77,6 +100,12 @@ searchBar.addEventListener('submit', (event) => {
 // Running from here down.
 async function fetchAndRender() {
   const charactersArray = await fetchCharacters();
+
+  //If no characters are returned, exit early
+  if (charactersArray.length === 0) {
+    return; //Skip rendering cards
+  }
+
   renderCards(charactersArray);
   updatePagination();
 }
