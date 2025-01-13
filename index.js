@@ -14,27 +14,30 @@ const pagination = document.querySelector('[data-js="pagination"]');
 const maxPage = 1;
 const page = 1;
 const searchQuery = "";
-// const url = "https://rickandmortyapi.com/api";
 
 async function fetchCharacters() {
   const response = await fetch("https://rickandmortyapi.com/api/character");
   const data = await response.json();
-  console.log(data);
-  const charactersObject = data.results;
-  console.log(charactersObject);
-  return charactersObject;
-
-  // console.log(
-  //   data.results[0].image,
-  //   data.results[0].name,
-  //   data.results[0].status,
-  //   data.results[0].type,
-  //   data.results[0].episode.length
-  // );
+  //data.results is an array of objects with character data
+  return data.results;
 }
 
-fetchCharacters();
 
-const card = CharacterCard(characterObject);
-cardContainer.append(card);
-CharacterCard();
+function renderCards(characters) {
+  console.log(characters)
+  characters.forEach((character) => {
+    const card = CharacterCard(character);
+    cardContainer.append(card);
+  });
+};
+
+
+
+
+
+
+// ----------------------------------------------------------------------------------
+
+// Runung from here down.
+const charactersArray = await fetchCharacters();
+renderCards(charactersArray);
