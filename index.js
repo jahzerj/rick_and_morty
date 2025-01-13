@@ -13,12 +13,12 @@ const maxPage = 1;
 const page = 1;
 const searchQuery = "";
 
-function CharacterCards() {
+function CharacterCards(charactersObject) {
   const card = document.createElement("li");
   card.classList.add("card");
   card.innerHTML = `<div class="card__image-container">
             <img
-              class="card__image"
+              class="card__image"git 
               src="https://rickandmortyapi.com/api/character/avatar/1.jpeg";
               alt="Rick Sanchez"
             />
