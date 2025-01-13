@@ -1,4 +1,6 @@
-import { CharacterCard } from "./components/CharacterCard/CharacterCard.js";
+import { CharacterCard } from './components/CharacterCard/CharacterCard.js';
+import { createNavButtons } from './components/NavButton/NavButton.js';
+import { createNavPagination } from './components/NavPagination/NavPagination.js';
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
@@ -11,9 +13,9 @@ const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
-let maxPage = 42;
-let page = 1;
-let searchQuery = "";
+let maxPage = 42; //Max Pages
+let page = 1; // Current Page
+let searchQuery = '';
 
 async function fetchCharacters() {
   const response = await fetch(
@@ -27,36 +29,43 @@ async function fetchCharacters() {
 }
 
 function renderCards(characters) {
-  cardContainer.innerHTML = "";
+  cardContainer.innerHTML = '';
   characters.forEach((character) => {
     const card = CharacterCard(character);
     cardContainer.append(card);
   });
 }
 
-nextButton.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (page === maxPage) {
-    return;
-  } else {
-    page++;
-    fetchAndRender();
-    pagination.innerHTML = `${page} / ${maxPage}`;
-  }
-});
+//updates page number
+function updatePagination() {
+  const pagination = document.querySelector('[data-js="pagination"]');
+  pagination.textContent = `${page} / ${maxPage}`;
+}
 
-prevButton.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (page === 1) {
-    return;
-  } else {
+// Create and append navigation elements
+const { prevButton, nextButton } = createNavButtons();
+const paginationElement = createNavPagination(page, maxPage);
+
+navigation.appendChild(prevButton);
+navigation.appendChild(paginationElement);
+navigation.appendChild(nextButton);
+
+// Add event listeners to the buttons------------------------------------------------------------------------
+prevButton.addEventListener('click', (event) => {
+  if (page > 1) {
     page--;
     fetchAndRender();
-    pagination.innerHTML = `${page} / ${maxPage}`;
   }
 });
 
-searchBar.addEventListener("submit", (event) => {
+nextButton.addEventListener('click', (event) => {
+  if (page < maxPage) {
+    page++;
+    fetchAndRender();
+  }
+});
+
+searchBar.addEventListener('submit', (event) => {
   event.preventDefault();
   page = 1;
   const formData = new FormData(event.target);
