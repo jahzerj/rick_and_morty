@@ -19,7 +19,6 @@ head {
 }
 h1 {
   align-self: center;
-  background-image: ;
   color: white;
 }
 
@@ -44,7 +43,6 @@ main {
 .search-bar-container {
   align-self: center;
   width: 100%;
-  
 }
 .card-container {
   display: flex;
