@@ -14,11 +14,22 @@
   --color-secondary: #f6f6f6;
   --font-family: system-ui;
 }
+head {
+  margin: 10px;
+}
+h1 {
+  align-self: center;
+  background-image: ;
+  color: white;
+}
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-family);
   color: var(--color-primary);
   padding: 20px;
+  background-color: rgb(171, 171, 240);
 }
 
 main {
@@ -26,7 +37,35 @@ main {
   flex-direction: column;
   gap: 10px;
 }
-
+.card {
+  border-radius: 35px;
+  margin: 10px;
+}
+.search-bar-container {
+  align-self: center;
+  width: 100%;
+  
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.card__image {
+  border-radius: 35px;
+}
 .title {
   padding: 10px 0;
+}
+
+nav {
+  margin-top: 10px;
+  justify-content: center;
+  background-color: rgba(161, 87, 230, 0.524);
+}
+span {
+  font-weight: bold;
+}
+button {
+  font-weight: bold;
+  border-radius: 25px;
 }
